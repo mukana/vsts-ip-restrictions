@@ -30,15 +30,9 @@
     "galleryFlags": [
         "Public"
     ],
-    "screenshots": [{
-        "path": "images/add-ip.jpg"
-    }],
     "content": {
         "details": {
             "path": "overview.md"
-        },
-        "license": {
-            "path": "license.txt"
         }
     },
     "links": {
