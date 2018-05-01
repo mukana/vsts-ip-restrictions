@@ -63,6 +63,9 @@ $r = Get-AzureRmResource -ResourceGroupName "$($ResourceGroupName)" -ResourceTyp
 
 # Get resource properties for IP restrictions
 $properties = $r.Properties
+if($properties.ipSecurityRestrictions -eq $null){
+    $properties.ipSecurityRestrictions = @()
+}
 
 # Add build agent IP address
 if ($ShouldAddBuildAgentIP -eq $True) {
