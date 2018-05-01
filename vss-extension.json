@@ -3,7 +3,7 @@
     "id": "AzureAppServiceIPRestrictions",
     "version": "1.0.0",
     "name": "Azure App Service: Add or remove IP Restrictions",
-    "publisher": "mquekel",
+    "publisher": "MartijnQuekel",
     "description": "Add or remove IP Restrictions, use custom address or add the IP of the build agent.",
     "targets": [{
         "id": "Microsoft.VisualStudio.Services"
