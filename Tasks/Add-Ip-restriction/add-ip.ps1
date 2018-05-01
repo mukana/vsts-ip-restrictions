@@ -1,6 +1,9 @@
 ﻿[CmdletBinding()]
 param(
     [String] [Parameter(Mandatory = $true)]
+    $ConnectedServiceName,
+
+    [String] [Parameter(Mandatory = $true)]
     $WebAppName,
     
     [String] [Parameter(Mandatory = $true)]
