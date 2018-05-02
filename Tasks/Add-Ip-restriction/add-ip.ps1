@@ -19,7 +19,7 @@ param(
     $IpAddresses = "",
 
     [String] [Parameter(Mandatory = $false)]
-    $OverWriteExisting = "",
+    $OverWriteExisting = ""
 )
 
 $ShouldAddBuildAgentIP = $false
