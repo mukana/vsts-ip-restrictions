@@ -16,12 +16,20 @@ param(
     $AddBuildAgentIP = "",
 
     [String] [Parameter(Mandatory = $false)]
-    $IpAddresses = ""
+    $IpAddresses = "",
+
+    [String] [Parameter(Mandatory = $false)]
+    $OverWriteExisting = "",
 )
 
 $ShouldAddBuildAgentIP = $false
 if (![string]::IsNullOrEmpty($AddBuildAgentIP)) {
     $ShouldAddBuildAgentIP = [System.Convert]::ToBoolean($AddBuildAgentIP)
+}
+
+$ShouldOverWriteExisting = $false
+if (![string]::IsNullOrEmpty($OverWriteExisting)) {
+    $ShouldOverWriteExisting = [System.Convert]::ToBoolean($OverWriteExisting)
 }
 
 # Function for getting the resource type and name.
@@ -64,6 +72,11 @@ $r = Get-AzureRmResource -ResourceGroupName "$($ResourceGroupName)" -ResourceTyp
 # Get resource properties for IP restrictions
 $properties = $r.Properties
 if($properties.ipSecurityRestrictions -eq $null){
+    $properties.ipSecurityRestrictions = @()
+}
+
+# Whipe out the current list of restrictions.
+if($ShouldOverWriteExisting -eq $True) {
     $properties.ipSecurityRestrictions = @()
 }
 
