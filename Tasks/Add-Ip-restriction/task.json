@@ -12,7 +12,7 @@
     "demands": ["azureps"],
     "version": {
         "Major": "2",
-        "Minor": "2",
+        "Minor": "10",
         "Patch": "0"
     },
     "minimumAgentVersion": "1.95.0",
@@ -75,7 +75,7 @@
             "label": "IP Addresses",
             "defaultValue": "",
             "required": false,
-            "helpMarkDown": "Add Ip Addresses, each line contains one IP Address",
+            "helpMarkDown": "Add Ip Addresses, each line contains one IP Address.  Subnet masks can be specified using CIDR syntax (e.g. 10.0.0.0/24).  Comments can be added to each line by separating the comment from the rest of the line with a space (e.g. 10.0.0.0/24 Production subnet).",
             "properties": {
                 "resizable": "true",
                 "rows": "20"
