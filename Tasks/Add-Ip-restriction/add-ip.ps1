@@ -46,20 +46,21 @@ Function GetResourceTypeAndName($SiteName, $Slot)
 }
 
 # Function for adding the IP Address to to the WebApp Properties.
-Function AddIpToProperties($properties, $address) {
+Function AddIpToProperties($properties, $address, $subnetmask) {
     $restrictions = $properties.ipSecurityRestrictions
     
     foreach ($restiction in $restrictions) {
-        if($address -eq $restiction.ipAddress)
+        if($address -eq $restiction.ipAddress)  
         {
             Write-Host "Ip was already added"
             return;
         }
     }
 
-    $restriction = @{}
-    $restriction.Add("ipAddress",$address)
-    $restriction.Add("subnetMask","") 
+    $restriction = [pscustomobject]@{
+        ipAddress = $address
+        subnetMask = $subnetmask
+    }
     $properties.ipSecurityRestrictions+= $restriction
 }
 
@@ -98,9 +99,17 @@ if (![string]::IsNullOrEmpty($IpAddresses)) {
 
     $lines = $IpAddresses.Split($seperator, $splitOption)
 
-    foreach ($ipAddress in $lines) {
+    foreach ($line in $lines) {
+        if ($line -match "/") {
+            $subnetmask = $line.split("/")[1].split(" ")[0]
+            $ipAddress = $line.split("/")[0]
+        }
+        else {
+            $ipAddress = $line.split()[0]
+            $subnetmask = ""
+        }
         Write-Host "Adding custom IP Address $($ipAddress)"
-        AddIpToProperties $properties $ipAddress
+        AddIpToProperties $properties $ipAddress $subnetmask
     }
 }
 
