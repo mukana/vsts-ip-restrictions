@@ -57,10 +57,10 @@ Function AddIpToProperties($properties, $address, $subnetmask) {
         }
     }
 
-    $restriction = [pscustomobject]@{
-        ipAddress = $address
-        subnetMask = $subnetmask
-    }
+    $restriction = @{}
+    $restriction.Add("ipAddress",$address)
+    $restriction.Add("subnetMask",$subnetmask) 
+
     $properties.ipSecurityRestrictions+= $restriction
 }
 
@@ -89,7 +89,7 @@ if ($ShouldAddBuildAgentIP -eq $True) {
     
     Write-Host("Adding Build Agent IP Address $($buildAgentIP)")
     
-    AddIpToProperties $properties $buildAgentIP
+    AddIpToProperties $properties $buildAgentIP ""
 }
 
 # Add custom Ip addresses, split on newline
