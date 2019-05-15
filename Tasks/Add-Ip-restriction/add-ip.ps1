@@ -48,9 +48,10 @@ Function GetResourceTypeAndName($SiteName, $Slot)
 # Function for adding the IP Address to to the WebApp Properties.
 Function AddIpToProperties($properties, $address, $subnetmask) {
     $restrictions = $properties.ipSecurityRestrictions
-    
+
     foreach ($restiction in $restrictions) {
-        if($address -eq $restiction.ipAddress)  
+        Write-Host $restiction
+        if($address -eq $restiction.ipAddress.split("/")[0])  
         {
             Write-Host "Ip was already added"
             return;
@@ -58,8 +59,14 @@ Function AddIpToProperties($properties, $address, $subnetmask) {
     }
 
     $restriction = @{}
-    $restriction.Add("ipAddress",$address)
-    $restriction.Add("subnetMask",$subnetmask) 
+    if([string]::IsNullOrEmpty($subnetmask))
+    {
+        $subnetmask = 32
+    }
+
+    $restriction.Add("ipAddress","$($address)/$($subnetmask)")
+    $restriction.Add("Priority",65000)
+    $restriction.Add("Description", "Added via Azure Devops")
 
     $properties.ipSecurityRestrictions+= $restriction
 }
@@ -68,7 +75,7 @@ Function AddIpToProperties($properties, $address, $subnetmask) {
 $ResourceType,$ResourceName = GetResourceTypeAndName $WebAppName $Slot
 
 # Get the resource from Azure
-$r = Get-AzureRmResource -ResourceGroupName "$($ResourceGroupName)" -ResourceType $ResourceType/config -Name $ResourceName/web -ApiVersion 2016-08-01
+$r = Get-AzureRmResource -ResourceGroupName "$($ResourceGroupName)" -ResourceType $ResourceType/config -Name $ResourceName/web -ApiVersion 2018-11-01
 
 # Get resource properties for IP restrictions
 $properties = $r.Properties
@@ -114,7 +121,7 @@ if (![string]::IsNullOrEmpty($IpAddresses)) {
 }
 
 # Update azure resource
-Set-AzureRmResource -Force -ResourceGroupName  "$($ResourceGroupName)" -ResourceType $ResourceType/config -Name $ResourceName/web -ApiVersion 2016-08-01 -PropertyObject $properties
+Set-AzureRmResource -Force -ResourceGroupName  "$($ResourceGroupName)" -ResourceType $ResourceType/config -Name $ResourceName/web -ApiVersion 2018-11-01 -PropertyObject $properties
 
 # add a short timer because there could be some delay after adding the IP address to the resource.
 Start-Sleep -s 10
