@@ -8,7 +8,7 @@
     "visibility": [
         "Release"
     ],
-    "demands": [ "azureps" ],
+    "demands": ["azureps"],
     "version": {
         "Major": "3",
         "Minor": "0",
@@ -16,8 +16,7 @@
     },
     "minimumAgentVersion": "1.95.0",
     "instanceNameFormat": "Set IP Restrictions: $(pickList)",
-    "inputs": [
-        {
+    "inputs": [{
             "name": "ConnectedServiceName",
             "type": "connectedService:AzureRM",
             "label": "AzureRM Subscription",
@@ -93,8 +92,7 @@
             "helpMarkDown": "Overwrite all the current IP Addresses in Azure."
         }
     ],
-    "dataSourceBindings": [
-        {
+    "dataSourceBindings": [{
             "target": "WebAppName",
             "endpointId": "$(ConnectedServiceName)",
             "dataSourceName": "AzureRMWebAppNames"
