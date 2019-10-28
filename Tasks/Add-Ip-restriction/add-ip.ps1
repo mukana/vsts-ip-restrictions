@@ -1,6 +1,6 @@
 ﻿[CmdletBinding()]
 param(
-    [String] [Parameter(Mandatory = $true)]
+    [String] [Parameter(Mandatory = $false)]
     $ConnectedServiceName,
 
     [String] [Parameter(Mandatory = $true)]
