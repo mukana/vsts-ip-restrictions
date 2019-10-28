@@ -1,4 +1,3 @@
-
 {
     "id": "e9a790d6-416a-4066-a230-8d7637085687",
     "name": "AzureAppServiceIPRestrictionsAdd",
@@ -75,7 +74,7 @@
             "label": "IP Addresses",
             "defaultValue": "",
             "required": false,
-            "helpMarkDown": "Add Ip Addresses, each line contains one IP Address.  Subnet masks can be specified using CIDR syntax (e.g. 10.0.0.0/24).  Comments can be added to each line by separating the comment from the rest of the line with a space (e.g. 10.0.0.0/24 Production subnet).",
+            "helpMarkDown": "Add Ip Addresses, separate each IP Address by comma or newline.  Subnet masks can be specified using CIDR syntax (e.g. 10.0.0.0/24).  Comments can be added to each line by separating the comment from the rest of the line with a space (e.g. 10.0.0.0/24 Production subnet).",
             "properties": {
                 "resizable": "true",
                 "rows": "20"

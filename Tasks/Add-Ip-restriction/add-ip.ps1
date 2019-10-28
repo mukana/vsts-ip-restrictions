@@ -99,9 +99,9 @@ if ($ShouldAddBuildAgentIP -eq $True) {
     AddIpToProperties $properties $buildAgentIP ""
 }
 
-# Add custom Ip addresses, split on newline
+# Add custom Ip addresses, split on newline or comma
 if (![string]::IsNullOrEmpty($IpAddresses)) {
-    $seperator = [Environment]::NewLine
+    $seperator = [Environment]::NewLine,","
     $splitOption = [System.StringSplitOptions]::RemoveEmptyEntries
 
     $lines = $IpAddresses.Split($seperator, $splitOption)
