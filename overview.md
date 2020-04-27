@@ -1,4 +1,4 @@
-# VSTS Ip Restrictions
+# VSTS IP Restrictions
 
 This modules makes it possible to add IP restrictions to an Azure App Service.
 There is an option for adding custom addresses and there is an option for adding the IP Address of the build server.
@@ -10,4 +10,3 @@ IP addresses can be specified individually (e.g. 1.2.3.4) or as ranges using CID
 10.0.0.0/24 Production subnet
 10.2.0.1
 192.168.0.1 External server
-

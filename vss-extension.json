@@ -1,13 +1,15 @@
 {
     "manifestVersion": 1,
-    "id": "AzureAppServiceIPRestrictions",
-    "version": "3.1.0",
+    "id": "FAC-AzureAppServiceIPRestrictions",
+    "version": "4.0.4",
     "name": "Azure App Service: Add or remove IP Restrictions",
-    "publisher": "MartijnQuekel",
+    "publisher": "FAC",
     "description": "Add or remove IP Restrictions, use custom address or add the IP of the build agent.",
-    "targets": [{
-        "id": "Microsoft.VisualStudio.Services"
-    }],
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
     "demands": [
         "api-version/3.0",
         "contribution/ms.vss-dashboards-web.widget-catalog"
@@ -16,7 +18,7 @@
         "default": "images/logo_default.png"
     },
     "categories": [
-        "Build and release"
+        "Azure Pipelines"
     ],
     "tags": [
         "WebApp",
@@ -28,34 +30,49 @@
         "Configuration"
     ],
     "galleryFlags": [
-        "Public"
+        "Private"
     ],
     "content": {
         "details": {
-            "path": "overview.md"
+            "path": "README.md"
         }
     },
     "links": {
         "getstarted": {
-            "uri": "https://github.com/mquekel/vsts-ip-restrictions"
+            "uri": "https://git.mukana.info/public-libraries/vsts-ip-restrictions"
         }
     },
     "branding": {
         "color": "rgb(34, 34, 34)",
         "theme": "dark"
     },
-    "files": [{
-            "path": "Tasks/Add-Ip-restriction"
+    "files": [
+        {
+            "path": "tasks/add-ip-restriction"
+        },
+        {
+            "path": "tasks/remove-ip-restriction"
         }
     ],
-    "contributions": [{
+    "contributions": [
+        {
             "id": "AzureAppServiceIPRestrictions-AddIP",
             "type": "ms.vss-distributed-task.task",
             "targets": [
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": {
-                "name": "Tasks/Add-Ip-restriction"
+                "name": "tasks/add-ip-restriction"
+            }
+        },
+        {
+            "id": "AzureAppServiceIPRestrictions-RemoveIP",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/remove-ip-restriction"
             }
         }
     ]

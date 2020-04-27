@@ -1,8 +1,8 @@
 {
-    "id": "1a615ed7-e047-42ae-8677-cb97af52745d",
+    "id": "a008d70e-32ec-4a57-b1fb-4143d4c26e9a",
     "name": "AzureAppServiceIPRestrictionsAdd",
-    "friendlyName": "Azure App Service: Add IP Restrictions",
-    "description": "Add IP Restrictions, use custom address or add the IP of the build agent.",
+    "friendlyName": "Azure App Service: Remove IP Restrictions",
+    "description": "Remove added IP exceptions, custom IPs or build agent IP",
     "author": "FAC",
     "category": "Deploy",
     "visibility": [
@@ -12,10 +12,10 @@
     "version": {
         "Major": "4",
         "Minor": "0",
-        "Patch": "3"
+        "Patch": "4"
     },
     "minimumAgentVersion": "1.95.0",
-    "instanceNameFormat": "Set IP Restrictions: $(pickList)",
+    "instanceNameFormat": "Remove IP Restrictions: $(pickList)",
     "inputs": [{
             "name": "ConnectedServiceName",
             "type": "connectedService:AzureRM",
@@ -79,17 +79,6 @@
                 "resizable": "true",
                 "rows": "20"
             }
-        },
-        {
-            "name": "OverWriteExisting",
-            "type": "boolean",
-            "label": "Overwrite existing configuration",
-            "defaultValue": "",
-            "required": false,
-            "properties": {
-                "EditableOptions": "True"
-            },
-            "helpMarkDown": "Overwrite all the current IP Addresses in Azure."
         }
     ],
     "dataSourceBindings": [{
@@ -118,7 +107,7 @@
     ],
     "execution": {
         "AzurePowerShell": {
-            "target": "add-ip.ps1"
+            "target": "remove-ip.ps1"
         }
     }
 }

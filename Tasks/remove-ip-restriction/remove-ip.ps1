@@ -1,4 +1,4 @@
-﻿[CmdletBinding()]
+[CmdletBinding()]
 param(
     [String] [Parameter(Mandatory = $false)]
     $ConnectedServiceName,
@@ -16,20 +16,12 @@ param(
     $AddBuildAgentIP = "",
 
     [String] [Parameter(Mandatory = $false)]
-    $IpAddresses = "",
-
-    [String] [Parameter(Mandatory = $false)]
-    $OverWriteExisting = ""
+    $IpAddresses = ""
 )
 
 $ShouldAddBuildAgentIP = $false
 if (![string]::IsNullOrEmpty($AddBuildAgentIP)) {
     $ShouldAddBuildAgentIP = [System.Convert]::ToBoolean($AddBuildAgentIP)
-}
-
-$ShouldOverWriteExisting = $false
-if (![string]::IsNullOrEmpty($OverWriteExisting)) {
-    $ShouldOverWriteExisting = [System.Convert]::ToBoolean($OverWriteExisting)
 }
 
 # Function for getting the resource type and name.
@@ -44,28 +36,16 @@ Function GetResourceTypeAndName($SiteName, $Slot) {
     $ResourceType, $ResourceName
 }
 
-# Function for adding the IP Address to to the WebApp Properties.
-Function AddIpToProperties($properties, $address, $subnetmask) {
+function RemoveIpFromProperties($properties, $address, $subnetmask) {
     $restrictions = $properties.ipSecurityRestrictions
 
-    foreach ($restiction in $restrictions) {
+    $newRestrictions = @($restrictions | Where-Object { ($_.ipAddress.split("/")[0]) -ne $address })
+
+    foreach ($restiction in $newRestrictions) {
         Write-Host $restiction
-        if ($address -eq $restiction.ipAddress.split("/")[0]) {
-            Write-Host "Ip was already added"
-            return;
-        }
     }
 
-    $restriction = @{ }
-    if ([string]::IsNullOrEmpty($subnetmask)) {
-        $subnetmask = 32
-    }
-
-    $restriction.Add("ipAddress", "$($address)/$($subnetmask)")
-    $restriction.Add("Priority", 65000)
-    $restriction.Add("Description", "Added via Azure Devops")
-
-    $properties.ipSecurityRestrictions += $restriction
+    $properties.ipSecurityRestrictions = $newRestrictions
 }
 
 # Get resource type and resource name
@@ -93,7 +73,7 @@ if ($ShouldAddBuildAgentIP -eq $True) {
     
     Write-Host("Adding Build Agent IP Address $($buildAgentIP)")
     
-    AddIpToProperties $properties $buildAgentIP ""
+    RemoveIpFromProperties $properties $buildAgentIP ""
 }
 
 # Add custom Ip addresses, split on newline or comma
@@ -113,7 +93,7 @@ if (![string]::IsNullOrEmpty($IpAddresses)) {
             $subnetmask = ""
         }
         Write-Host "Adding custom IP Address $($ipAddress)"
-        AddIpToProperties $properties $ipAddress $subnetmask
+        RemoveIpFromProperties $properties $ipAddress $subnetmask
     }
 }
 
